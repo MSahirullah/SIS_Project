@@ -3,3 +3,18 @@
     font-weight: 600;
     color: white;
 }
+
+.login-link
+{
+    color: rgb(74, 74, 74);
+    text-decoration: none;  
+    transition: 0.3s;
+}
+
+.login-link:hover
+{
+    color: #151515;
+    text-decoration: none;  
+    transition: 0.3s;
+
+}
