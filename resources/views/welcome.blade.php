@@ -38,7 +38,7 @@ Login
                                 </div>
                             </div>
                             <div class="mt-4 d-flex justify-content-end">
-                                <button type="button" class="btn btn-dark">Sign In</button>
+                                <a href="{{ route('dashbaord') }}" type="button" class="btn btn-dark">Sign In</a>
                             </div>
                             <div class="mt-4 d-flex justify-content-between ">
                                 <div>
