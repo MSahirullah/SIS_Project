@@ -18,6 +18,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/admin', function () {
+    return view('admin/index');
+})->name('dashbaord');
+
+Route::get('/admin/exams', function () {
+    return view('admin/exams');
+})->name('exams');
+
+Route::get('/admin/exam-results', function () {
+    return view('admin/examResults');
+})->name('exam_results');
+
+Route::get('/admin/lecturers', function () {
+    return view('admin/lecturers');
+})->name('lecturers');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
