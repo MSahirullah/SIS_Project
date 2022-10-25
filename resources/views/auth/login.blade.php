@@ -1,67 +1,77 @@
 @extends('layouts.app')
 
+@section('title')
+Login
+@endsection
+
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
 
+<div class="has-bg-img" style="background-image: url('/img/bg/bg-web.jpg'); background-size:cover;background-repeat:no-repeat;">
+    <div class="container vh-100 p-4">
+        <div class="row justify-content-center  mb-4">
+            <div class="col-md-6 text-center">
+                <img src="/img/logo/logo.png" alt="SIS - Login | FOT - UOC" height="100">
+                <div class="mt-2 login-title-font">Faculty of Technology</div>
+                <div class="login-title-font">University of Colombo</div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="card" style="width: 50rem; background:#ffffffbf;">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form action="{{ route('login') }}" method="post">
                         @csrf
+                        <div class="row">
+                            <div class="col-md-6 pt-2 pb-3">
+                                <div class="text-center">
+                                    <div style="font-size: 1.2rem;"> Student Information System</div>
+                                    <div class="mb-3" style="font-size: 1.4rem; font-weight: 500;">SignIn</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="username">{{ __('Username') }} </label>
+                                        <input type="text" class="form-control mt-2 @error('username') is-invalid @enderror" name="username" required autocomplete="username" autofocus id="username" onkeypress="return /[0-9T]/i.test(event.key)" placeholder="Username" pattern="([0-9]T){10}"><br>
+                                        @error('username')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="password">{{ __('Password') }} </label>
+                                        <input type="text" class="form-control mt-2  @error('password') is-invalid @enderror" name="password" required autocomplete="password" autofocus id="password" onkeypress="return /[a-z]/i.test(event.key)" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="mt-4 d-flex justify-content-end">
+                                    <a href="{{ route('dashbaord') }}" type="button" class="btn btn-dark">Sign In</a>
+                                </div>
+                                <div class="mt-4 d-flex justify-content-between ">
+                                    @if (Route::has('password.request'))
+                                    <div>
+                                        <a href="#" class="login-link"> Forgot Password?</a>
+                                    </div>
+                                    @endif
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+                                    <div>
+                                        <a href="#" class="login-link" style="margin-right: 10px;"><i class="fa-solid fa-circle-info pr-1"></i> About</a>
+                                        <a href="#" class="login-link"><i class="fas fa-question-circle"></i> Help</a>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-center" style="font-size: 0.8rem; color: #4a4a4a;">
+                                    © 2022 Department of ICT, Faculty of Technology
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+                            <div class="col-md-6">
+                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/5ejFFf_BqtI" style="    border-radius: 0rem 0.5rem 0.5rem 0rem;">
+                                </iframe>
                             </div>
                         </div>
                     </form>
