@@ -1,0 +1,212 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Nette\Utils\Json;
+
+class StudentController extends Controller
+{
+
+    /**
+     * Index Function
+     */
+    public function Index()
+    {
+        //////////////////////
+        //    USER TYPES    //
+        //////////////////////
+        // 1 = ADMIN
+        // 2 = DEAN OFFICE
+        // 3 = STAFF
+        // 4 = LECTURERS
+        // 5 = STUDENTS
+        //////////////////////
+
+        $students = DB::table('users')
+            ->where('users.user_type', 5)
+            ->join('departments', 'departments.id', '=', 'users.department_id')
+            ->join('years', 'years.id', '=', 'users.year_id')
+            ->select('users.id', 'users.name_with_initial', 'departments.name as dep_name', 'years.name as year_name', 'users.username', 'users.status')
+            ->get();
+
+        return view('admin.students', [
+            'students' => json_decode($students, true),
+        ]);
+    }
+
+    /**
+     * ADD STUDENT PAGE
+     */
+    public function addStudent()
+    {
+        $departments = DB::table('departments')
+            ->where('departments.status', 1)
+            ->select('departments.*')
+            ->get();
+
+        $years = DB::table('years')
+            ->where('years.status', 1)
+            ->select('years.*')
+            ->get();
+
+        $courses = DB::table('courses')
+            ->where('courses.status', 1)
+            ->select('courses.*')
+            ->get();
+
+        $semesters = DB::table('semesters')
+            ->where('semesters.status', 1)
+            ->select('semesters.*')
+            ->get();
+
+        return view('admin.newStudent', [
+            'departments' => json_decode($departments, true),
+            'semesters' => json_decode($semesters, true),
+            'courses' => json_decode($courses, true),
+            'years' => json_decode($years, true),
+        ]);
+    }
+
+    /**
+     * SAVE NEW STUDENT DETAILS
+     */
+    public function saveStudent(Request $request)
+    {
+        // STUDENT CRETE AND EDIT USES SAME ACTION
+        // userId WILL ONLY AVALIBLE IN EDIT
+
+        $userId = $request->userId;
+        $title = $request->title;
+        $firstName = $request->firstName;
+        $lastName = $request->lastName;
+        $nameWithInitial = $request->nameWithInitial;
+        $fullName = $request->fullName;
+        $gender = $request->gender;
+        $department = $request->department;
+        $year = $request->year;
+        $course = $request->course;
+        $semester = $request->semester;
+        $email = $request->email;
+        $nic = $request->nic;
+        $address = $request->address;
+        $homwtown = $request->hometown;
+        $contactNo = $request->contactNo;
+        $username =  $request->username;
+        $password = $request->password;
+
+        if ($userId) {
+
+            $updateDetails = [
+                'title' => $title,
+                'name_with_initial' => $nameWithInitial,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'full_name' => $fullName,
+                'gender' => $gender,
+                'nic' => $nic,
+                'user_type' => 5,
+                'username' => $username,
+                'password' => Hash::make($password),
+                'address' => $address,
+                'hometown' => $homwtown,
+                'contact_no' => $contactNo,
+                'email' => $email,
+                'department_id' => $department,
+                'course_id' => $course,
+                'semester_id' => $semester,
+                'year_id' => $year,
+            ];
+
+            DB::table('users')
+                ->where('id', $userId)
+                ->update($updateDetails);
+        } else {
+
+            $student = new User();
+            $student->title = $title;
+            $student->name_with_initial = $nameWithInitial;
+            $student->first_name = $firstName;
+            $student->last_name = $lastName;
+            $student->full_name = $fullName;
+            $student->gender = $gender;
+            $student->nic = $nic;
+            $student->user_type = 5; // 5 = STUDENT (OTHER TYPES ON THE TOP OF THE CODE)
+            $student->username = $username;
+            $student->password = Hash::make($password);
+            $student->address = $address;
+            $student->hometown = $homwtown;
+            $student->contact_no = $contactNo;
+            $student->email = $email;
+
+            $student->department_id = $department;
+            $student->course_id = $course;
+            $student->semester_id = $semester;
+            $student->year_id = $year;
+            $student->status = 1;
+            $student->save();
+        }
+
+        // TODO : ADD FALSH
+        return redirect()->route('students.index');
+    }
+
+    /**
+     * EDIT STUDENT DETAILS
+     */
+    public function editStudent($username)
+    {
+        $user = User::whereUsername($username)->first()->toArray();
+
+        if (!$user) {
+            return redirect()->route('students.index');
+        }
+
+        $departments = DB::table('departments')
+            ->where('departments.status', 1)
+            ->select('departments.*')
+            ->get();
+
+        $years = DB::table('years')
+            ->where('years.status', 1)
+            ->select('years.*')
+            ->get();
+
+        $courses = DB::table('courses')
+            ->where('courses.status', 1)
+            ->select('courses.*')
+            ->get();
+
+        $semesters = DB::table('semesters')
+            ->where('semesters.status', 1)
+            ->select('semesters.*')
+            ->get();
+
+        return view('admin.editStudent', [
+            'departments' => json_decode($departments, true),
+            'semesters' => json_decode($semesters, true),
+            'courses' => json_decode($courses, true),
+            'years' => json_decode($years, true),
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Remove Year Function
+     */
+    public function removeStudent(Request $request)
+    {
+        $student_id = $request->studentId;
+        $status = 0;
+
+        if ($student_id) {
+            User::where('id', $student_id)->delete();
+            $status = 1;
+        }
+
+        return $status;
+    }
+}

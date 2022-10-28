@@ -2,7 +2,7 @@
   <div class="sidenav-header">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html" target="_blank">
-      <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+      <img src="/assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
       <span class="ms-1 font-weight-bold" style="font-size: 20px;">SIS - Admin</span>
     </a>
   </div>
@@ -15,6 +15,65 @@
             <i class="fa fa-home fa-2x text-muted" style="font-size: 13px;"></i>
           </div>
           <span class="nav-link-text ms-1"> Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Common</h6>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'acadamic_years.index') active @endif " href="{{ route('acadamic_years.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Acadamic Years</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'departments.index') active @endif " href="{{ route('departments.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Departments</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'exam_types.index') active @endif " href="{{ route('exam_types.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Exam Types</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'semesters.index') active @endif " href="{{ route('semesters.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Semesters</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'scholarships.index') active @endif " href="{{ route('scholarships.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Scholarships</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'courses.index') active @endif " href="{{ route('courses.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Courses</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'students.index' or \Route::current()->getName() === 'students.add' or \Route::current()->getName() === 'students.edit') active @endif " href="{{ route('students.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Students</span>
         </a>
       </li>
       <li class="nav-item mt-3">
@@ -36,6 +95,7 @@
           <span class="nav-link-text ms-1">Exam Results</span>
         </a>
       </li>
+
       <li class="nav-item mt-3">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">User Management</h6>
       </li>

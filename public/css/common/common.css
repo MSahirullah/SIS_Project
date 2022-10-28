@@ -18,3 +18,7 @@
     transition: 0.3s;
 
 }
+
+.text-right {
+    text-align: right;
+}

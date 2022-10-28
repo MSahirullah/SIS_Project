@@ -19,6 +19,7 @@
     <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/common/common.css">
     <style>
         .bg-gradient-primary {
             background-color: #3f51b5 !important;
@@ -40,6 +41,8 @@
     </main>
 
     @include('include.scripts')
+
+    @yield('scripts')
 
 </body>
 
