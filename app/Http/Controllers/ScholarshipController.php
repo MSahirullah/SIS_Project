@@ -140,7 +140,9 @@ class ScholarshipController extends Controller
         return redirect()->route('scholarships.students', ['scUrl' => $scUrl]);
     }
 
-
+    /**
+     * REMOVE SCHOLARSHIP STUDENT
+     */
     public function scholarshipRemoveStudents($scUrl, Request $request)
     {
         $student_id = $request->studentId;

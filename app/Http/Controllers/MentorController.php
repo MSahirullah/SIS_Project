@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mentor;
+use App\Models\MentorStudentGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class MentorController extends Controller
         $mentors = DB::table('mentors')
             ->where('mentors.status', 1)
             ->join('users', 'users.id', '=', 'mentors.lecturer_id')
-            ->select('users.title', 'users.id as lecturer_id', 'users.name_with_initial', 'mentors.id', 'mentors.time', 'mentors.status', 'mentors.day', 'mentors.location')
+            ->select('users.title', 'users.id as lecturer_id', 'users.name_with_initial', 'mentors.id', 'mentors.url', 'mentors.time', 'mentors.status', 'mentors.day', 'mentors.location')
             ->get();
 
         $mentorArray = json_decode($mentors, true);
@@ -120,6 +121,78 @@ class MentorController extends Controller
         return $status;
     }
 
+
+    /**
+     * MENTOR STUDENTS
+     */
+    public function mentorStudents($url, Request $request)
+    {
+        $mentor = Mentor::whereUrl($url)->first();
+
+        if (!$mentor) {
+            return redirect()->route('mentors.index');
+        }
+
+        $mentor_students = DB::table('mentor_student_groups')
+            ->where('mentor_student_groups.mentor_id', $mentor->toArray()['id'])
+            ->where('mentor_student_groups.status', 1)
+            ->join('users', 'users.id', '=', 'mentor_student_groups.student_id')
+            ->select('mentor_student_groups.id', 'users.name_with_initial', 'mentor_student_groups.status')
+            ->get();
+
+        $mentorModal = DB::table('mentors')
+            ->where('mentors.id', $mentor->toArray()['id'])
+            ->where('mentors.status', 1)
+            ->join('users', 'users.id', '=', 'mentors.lecturer_id')
+            ->select('mentors.id', 'users.name_with_initial')
+            ->get();
+
+        return view('admin.mentor.mentorStudents', [
+            'students' => json_decode($mentor_students, true),
+            'mentor' => json_decode($mentorModal, true)[0],
+            'url' => $url
+        ]);
+    }
+
+
+    /**
+     * ADD MENTOR STUDENT
+     */
+    public function addMentorStudent($url, Request $request)
+    {
+        $student_email = $request->email;
+        $mentor = Mentor::whereUrl($url)->first();
+        $student = User::whereEmail($student_email)->first();
+
+        if ($mentor and $student) {
+
+            $mentor_student = new MentorStudentGroup();
+            $mentor_student->mentor_id = $mentor->toArray()['id'];
+            $mentor_student->student_id = $student->toArray()['id'];
+            $mentor_student->status = 1;
+            $mentor_student->save();
+        }
+
+        // TODO : ADD FLASH
+        return redirect()->route('mentors.students', ['url' => $url]);
+    }
+
+
+    /**
+     * REMOVE SCHOLARSHIP STUDENT
+     */
+    public function removeMentorStudent($url, Request $request)
+    {
+        $student_id = $request->studentId;
+        $status = 0;
+
+        if ($student_id) {
+            MentorStudentGroup::where('id', $student_id)->delete();
+            $status = 1;
+        }
+
+        return $status;
+    }
 
     /**
      * Slug Function

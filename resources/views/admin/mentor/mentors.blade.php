@@ -74,9 +74,12 @@
                                         <span class="badge badge-sm bg-gradient-success"> {{ $mentor['status'] == 1 ? 'Active' : 'Inactive' }} </span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <a class="btn btn-secondary edit-mentor" data-mentor-id="{{ $mentor['id'] }}" data-lecturer="{{ $mentor['lecturer_id'] }}" data-date="{{ $mentor['day'] }}" data-time="{{$mentor['time']}}" data-location="{{ $mentor['location'] }}">
-                                            <i class="fa fa-edit"></i>
+                                        <a href="{{ route('mentors.students',['url'=> $mentor['url']]) }}" class="btn btn-primary">
+                                            <i class="fa fa-users"></i>
                                         </a>
+                                        <button class="btn btn-secondary edit-mentor" data-mentor-id="{{ $mentor['id'] }}" data-lecturer="{{ $mentor['lecturer_id'] }}" data-date="{{ $mentor['day'] }}" data-time="{{$mentor['time']}}" data-location="{{ $mentor['location'] }}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
                                         <button class="btn btn-danger remove-mentor" data-mentor-id="{{ $mentor['id'] }}">
                                             <i class="fa fa-trash"></i>
                                         </button>

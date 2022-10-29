@@ -134,7 +134,7 @@
                         <div class="row mb-4">
                             <div class="col-sm-6">
                                 <label for="username"> Username </label>
-                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="{{ $user['username'] }}">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="{{ $user['username'] }}" required>
                             </div>
                             <div class="col-sm-6">
                                 <label for="contactNo"> Password </label>

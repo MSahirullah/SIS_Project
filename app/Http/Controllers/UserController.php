@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MentorStudentGroup;
 use App\Models\ScholStudent;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
@@ -191,6 +192,39 @@ class UserController extends Controller
                     $status = 1;
                 }
             }
+        }
+
+        return $status;
+    }
+
+
+    /**
+     * CHECK MENTOR USER STATUS
+     */
+    public function checkMentorUserStatus(Request $request)
+    {
+        $email = $request->email;
+        $avalibility = $request->avalibility;
+        $status = 0;
+
+        if ($avalibility) {
+            $emailCheck = User::whereEmail($email)->first();
+            $returnStatus = 0;
+
+            if ($emailCheck) {
+
+                $scholStudent = MentorStudentGroup::whereStudent_id($emailCheck->toArray()['id'])->first();
+
+                if ($scholStudent) {
+                    $returnStatus = 1;
+                } else {
+                    $returnStatus = 2;
+                }
+            } else {
+                $returnStatus = 3;
+            }
+
+            return $returnStatus;
         }
 
         return $status;

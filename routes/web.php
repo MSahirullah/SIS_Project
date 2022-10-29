@@ -102,7 +102,7 @@ Route::post('/admin/users-actions/remove', [UserController::class, 'removeUser']
 
 // CHECK USERNAME AND EMAIL ARE ALREADY REGISTERED
 Route::post('/admin/users-actions/check', [UserController::class, 'checkUserStatus'])->name('users.check');
-
+Route::post('/admin/users-actions/mentor-student/check', [UserController::class, 'checkMentorUserStatus'])->name('users.mentor.check');
 
 ////////////////////////////
 
@@ -138,3 +138,6 @@ Route::get('/admin/mentors', [MentorController::class, 'index'])->name('mentors.
 Route::post('/admin/mentors/add', [MentorController::class, 'addMentor'])->name('mentors.add');
 Route::post('/admin/mentors/edit', [MentorController::class, 'editMentor'])->name('mentors.edit');
 Route::post('/admin/mentors/remove', [MentorController::class, 'removeMentor'])->name('mentors.remove');
+Route::get('/admin/mentors/{url}/students', [MentorController::class, 'mentorStudents'])->name('mentors.students');
+Route::post('/admin/mentors/{url}/students/add', [MentorController::class, 'addMentorStudent'])->name('mentors.addStudent');
+Route::post('/admin/mentors/{url}/students/remove', [MentorController::class, 'removeMentorStudent'])->name('mentors.removeStudent');
