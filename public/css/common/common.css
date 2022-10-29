@@ -22,3 +22,7 @@
 .text-right {
     text-align: right;
 }
+
+.navbar-vertical.navbar-expand-xs .navbar-collapse {
+ height: calc(100vh - 130px) !important;
+}

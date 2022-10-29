@@ -7,7 +7,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href=" {{ route('students.index') }} ">Students</a></li>
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href=" {{ route('deans.index') }} ">Dean Office</a></li>
         <li class="breadcrumb-item text-sm text-dark active" aria-current="page"> {{ $user['name_with_initial'] }} </li>
     </ol>
     <h3 class="font-weight-bolder mb-0"> {{ $user['name_with_initial'] }} </h3>
@@ -21,9 +21,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
-                <form action="{{ route('students.save') }}" method="post">
+                <form action="{{ route('users.save') }}" method="post" onSubmit="return validateForm();">
                     @csrf
-                    <input type="hidden" name="userId" value="{{ $user['id'] }}">
+                    <input type="hidden" name="userType" value="2">
+                    <input type="hidden" name="userId" value="{{ $user['id'] }}" id="userId">
                     <div class="card-body px-3 pt-3 pb-2">
                         <h6>Basic Information</h6>
                         <hr>
@@ -31,9 +32,11 @@
                             <div class="col-sm-2">
                                 <label for="title"> Title </label>
                                 <select name="title" id="title" class="form-select">
-                                    <option value="mr" {{ $user['title'] == 'mr' ? 'selected' : '' }}> Mr. </option>
-                                    <option value="ms" {{ $user['title'] == 'ms' ? 'selected' : '' }}> Ms. </option>
-                                    <option value="mrs" {{ $user['title'] == 'mrs' ? 'selected' : '' }}> Mrs. </option>
+                                    <option value="Mr" {{ $user['title'] == 'Mr' ? 'selected' : '' }}> Mr </option>
+                                    <option value="Ms" {{ $user['title'] == 'Ms' ? 'selected' : '' }}> Ms </option>
+                                    <option value="Mrs" {{ $user['title'] == 'Mrs' ? 'selected' : '' }}> Mrs </option>
+                                    <option value="Dr" {{ $user['title'] == 'Dr' ? 'selected' : '' }}> Dr </option>
+                                    <option value="Professor" {{ $user['title'] == 'Professor' ? 'selected' : '' }}> Professor </option>
                                 </select>
                             </div>
                             <div class="col-sm-5">
@@ -59,48 +62,6 @@
                                 <select name="gender" id="gender" class="form-select">
                                     <option value="male" {{ $user['gender'] == 'male' ? 'selected' : '' }}> Male </option>
                                     <option value="female" {{ $user['gender'] == 'female' ? 'selected' : '' }}> Female </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-3">
-                                <label for="department"> Department </label>
-                                <select name="department" id="department" class="form-select">
-                                    @foreach($departments as $department)
-                                    <option value="{{ $department['id'] }}" {{ $user['department_id'] == $department['id'] ? 'selected' : '' }}>
-                                        {{ $department['name'] }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label for="year"> Year </label>
-                                <select name="year" id="year" class="form-select">
-                                    @foreach($years as $years)
-                                    <option value="{{ $years['id'] }}" {{ $user['year_id'] == $years['id'] ? 'selected' : ''  }}>
-                                        {{ $years['name'] }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label for="course"> Course </label>
-                                <select name="course" id="course" class="form-select">
-                                    @foreach($courses as $courses)
-                                    <option value="{{ $courses['id'] }}" {{ $user['course_id'] == $courses['id'] ? 'selected' : '' }}>
-                                        {{ $courses['name'] }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <label for="semester"> Semester </label>
-                                <select name="semester" id="semester" class="form-select">
-                                    @foreach($semesters as $semester)
-                                    <option value="{{ $semester['id'] }}" {{ $user['semester_id'] == $semester['id'] ? 'selected' : '' }}>
-                                        {{ $semester['name'] }}
-                                    </option>
-                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -156,10 +117,6 @@
 
 @section('scripts')
 
-<script>
-    $(document).ready(function() {
-
-    });
-</script>
+<script src="/js/form-validation.js"></script>
 
 @endsection

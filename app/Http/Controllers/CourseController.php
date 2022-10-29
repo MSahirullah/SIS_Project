@@ -28,7 +28,7 @@ class CourseController extends Controller
             ->select('departments.*')
             ->get();
 
-        return view('admin.courses', [
+        return view('admin.settings.courses', [
             'courses' => json_decode($courses, true),
             'departments' => json_decode($departments, true)
         ]);

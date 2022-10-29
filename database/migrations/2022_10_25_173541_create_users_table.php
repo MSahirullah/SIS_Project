@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->constrained('departments')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('course_id')->constrained('courses')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('semester_id')->constrained('semesters')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('year_id')->constrained('years')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('course_id')->nullable()->constrained('courses')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('semester_id')->nullable()->constrained('semesters')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('year_id')->nullable()->constrained('years')->onUpdate('cascade')->onDelete('cascade');
             $table->string('title');
             $table->string('name_with_initial', 1000)->nullable();
             $table->string('first_name', 1000);

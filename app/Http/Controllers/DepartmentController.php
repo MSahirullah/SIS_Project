@@ -16,7 +16,7 @@ class DepartmentController extends Controller
         $departments = new Department();
         $data = $departments->all();
 
-        return view('admin.departments', ['departments' => $data]);
+        return view('admin.settings.departments', ['departments' => $data]);
     }
 
     /**

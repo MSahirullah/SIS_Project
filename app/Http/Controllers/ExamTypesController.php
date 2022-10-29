@@ -16,7 +16,7 @@ class ExamTypesController extends Controller
         $examTypes = new ExamType();
         $data = $examTypes->all();
 
-        return view('admin.examTypes', ['examTypes' => $data]);
+        return view('admin.settings.examTypes', ['examTypes' => $data]);
     }
 
     /**

@@ -16,7 +16,7 @@ class SemesterController extends Controller
         $semesters = new Semester();
         $data = $semesters->all();
 
-        return view('admin.semesters', ['semesters' => $data]);
+        return view('admin.settings.semesters', ['semesters' => $data]);
     }
 
     /**

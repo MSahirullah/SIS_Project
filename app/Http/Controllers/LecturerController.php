@@ -6,11 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Nette\Utils\Json;
 
-class StudentController extends Controller
+class LecturerController extends Controller
 {
-
     /**
      * Index Function
      */
@@ -26,57 +24,39 @@ class StudentController extends Controller
         // 5 = STUDENTS
         //////////////////////
 
-        $students = DB::table('users')
-            ->where('users.user_type', 5)
+        $lecturers = DB::table('users')
+            ->where('users.user_type', 4)
             ->join('departments', 'departments.id', '=', 'users.department_id')
-            ->join('years', 'years.id', '=', 'users.year_id')
-            ->select('users.id', 'users.name_with_initial', 'departments.name as dep_name', 'years.name as year_name', 'users.username', 'users.status')
+            ->select('users.id', 'users.title', 'users.name_with_initial', 'departments.name as dep_name', 'users.username', 'users.status')
             ->get();
 
-        return view('admin.student.students', [
-            'students' => json_decode($students, true),
+        return view('admin.lecturer.lecturers', [
+            'lecturers' => json_decode($lecturers, true),
         ]);
     }
 
     /**
-     * ADD STUDENT PAGE
+     * ADD LECTURER PAGE
      */
-    public function addStudent()
+    public function addLecturer()
     {
         $departments = DB::table('departments')
             ->where('departments.status', 1)
             ->select('departments.*')
             ->get();
 
-        $years = DB::table('years')
-            ->where('years.status', 1)
-            ->select('years.*')
-            ->get();
-
-        $courses = DB::table('courses')
-            ->where('courses.status', 1)
-            ->select('courses.*')
-            ->get();
-
-        $semesters = DB::table('semesters')
-            ->where('semesters.status', 1)
-            ->select('semesters.*')
-            ->get();
-
-        return view('admin.student.newStudent', [
-            'departments' => json_decode($departments, true),
-            'semesters' => json_decode($semesters, true),
-            'courses' => json_decode($courses, true),
-            'years' => json_decode($years, true),
+        return view('admin.lecturer.newLecturer', [
+            'departments' => json_decode($departments, true)
         ]);
     }
 
-    /**
+
+     /**
      * SAVE NEW STUDENT DETAILS
      */
-    public function saveStudent(Request $request)
+    public function saveLecturer(Request $request)
     {
-        // STUDENT CRETE AND EDIT USES SAME ACTION
+        // LECTURER CRETE AND EDIT USES SAME ACTION
         // userId WILL ONLY AVALIBLE IN EDIT
 
         $userId = $request->userId;
@@ -108,7 +88,7 @@ class StudentController extends Controller
                 'full_name' => $fullName,
                 'gender' => $gender,
                 'nic' => $nic,
-                'user_type' => 5,
+                'user_type' => 4,
                 'username' => $username,
                 'password' => Hash::make($password),
                 'address' => $address,
@@ -124,6 +104,7 @@ class StudentController extends Controller
             DB::table('users')
                 ->where('id', $userId)
                 ->update($updateDetails);
+
         } else {
 
             $student = new User();
@@ -134,7 +115,7 @@ class StudentController extends Controller
             $student->full_name = $fullName;
             $student->gender = $gender;
             $student->nic = $nic;
-            $student->user_type = 5; // 5 = STUDENT (OTHER TYPES ON THE TOP OF THE CODE)
+            $student->user_type = 4; // 4 = LECTURER (OTHER TYPES ON THE TOP OF THE CODE)
             $student->username = $username;
             $student->password = Hash::make($password);
             $student->address = $address;
@@ -151,18 +132,18 @@ class StudentController extends Controller
         }
 
         // TODO : ADD FALSH
-        return redirect()->route('students.index');
+        return redirect()->route('lecturers.index');
     }
 
     /**
-     * EDIT STUDENT DETAILS
+     * EDIT LECTURER DETAILS
      */
-    public function editStudent($username)
+    public function editLecturer($username)
     {
         $user = User::whereUsername($username)->first()->toArray();
 
         if (!$user) {
-            return redirect()->route('students.index');
+            return redirect()->route('lecturers.index');
         }
 
         $departments = DB::table('departments')
@@ -170,43 +151,26 @@ class StudentController extends Controller
             ->select('departments.*')
             ->get();
 
-        $years = DB::table('years')
-            ->where('years.status', 1)
-            ->select('years.*')
-            ->get();
-
-        $courses = DB::table('courses')
-            ->where('courses.status', 1)
-            ->select('courses.*')
-            ->get();
-
-        $semesters = DB::table('semesters')
-            ->where('semesters.status', 1)
-            ->select('semesters.*')
-            ->get();
-
-        return view('admin.student.editStudent', [
+        return view('admin.lecturer.editLecturer', [
             'departments' => json_decode($departments, true),
-            'semesters' => json_decode($semesters, true),
-            'courses' => json_decode($courses, true),
-            'years' => json_decode($years, true),
             'user' => $user
         ]);
     }
 
-    /**
+     /**
      * Remove Year Function
      */
-    public function removeStudent(Request $request)
+    public function removeLecturer(Request $request)
     {
-        $student_id = $request->studentId;
+        $lecturer_id = $request->lecturerId;
         $status = 0;
 
-        if ($student_id) {
-            User::where('id', $student_id)->delete();
+        if ($lecturer_id) {
+            User::where('id', $lecturer_id)->delete();
             $status = 1;
         }
 
         return $status;
     }
+
 }

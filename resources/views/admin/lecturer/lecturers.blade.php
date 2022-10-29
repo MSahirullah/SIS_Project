@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title') Students @endsection
+@section('title') Lecturers @endsection
 
 @section('breadcrumb')
 
@@ -9,7 +9,7 @@
         <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
         <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
     </ol>
-    <h3 class="font-weight-bolder mb-0"> Students </h3>
+    <h3 class="font-weight-bolder mb-0"> Lecturers </h3>
 </nav>
 
 @endsection
@@ -23,11 +23,11 @@
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col-sm-4">
-                            <h6> Students </h6>
+                            <h6> Lecturers </h6>
                         </div>
                         <div class="col-sm-8 text-right">
-                            <a href=" {{ route('students.add') }}" class="btn btn-primary">
-                                New Student
+                            <a href=" {{ route('lecturers.add') }}" class="btn btn-primary">
+                                New Lecturer
                             </a>
                         </div>
                     </div>
@@ -41,7 +41,6 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Department</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Year</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                 </tr>
@@ -49,7 +48,7 @@
                             <tbody>
 
                                 @php ($i = 1)
-                                @foreach($students as $student)
+                                @foreach($lecturers as $lecturer)
 
                                 <tr>
                                     <td>
@@ -58,22 +57,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0 text-sm"> {{ $student['name_with_initial'] }} </h6>
+                                        <h6 class="mb-0 text-sm"> {{ $lecturer['title'] }}. {{ $lecturer['name_with_initial'] }} </h6>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0 text-sm"> {{ $student['dep_name'] }} </h6>
-                                    </td>
-                                    <td>
-                                        <h6 class="mb-0 text-sm"> {{ $student['year_name'] }} </h6>
+                                        <h6 class="mb-0 text-sm"> {{ $lecturer['dep_name'] }} </h6>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success"> {{ $student['status'] == 1 ? 'Active' : 'Inactive' }} </span>
+                                        <span class="badge badge-sm bg-gradient-success"> {{ $lecturer['status'] == 1 ? 'Active' : 'Inactive' }} </span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <a href=" {{ route('students.edit',['username'=> $student['username'] ]) }} " class="btn btn-secondary">
+                                        <a href=" {{ route('lecturers.edit',['username'=> $lecturer['username'] ]) }} " class="btn btn-secondary">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <button class="btn btn-danger remove-student" data-student-id="{{ $student['id'] }}">
+                                        <button class="btn btn-danger remove-lecturer" data-lecturer-id="{{ $lecturer['id'] }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -109,8 +105,8 @@
         /**
          *  Remove Acadamic Year Function
          */
-        $(".remove-student").click(function() {
-            const studentId = $(this).attr('data-student-id');
+        $(".remove-lecturer").click(function() {
+            const lecturerId = $(this).attr('data-lecturer-id');
 
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
@@ -123,9 +119,9 @@
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    $.post("/admin/students/remove", {
+                    $.post("/admin/users-actions/remove", {
                             "_token": post_token,
-                            "studentId": studentId,
+                            "userId": lecturerId,
                         },
                         function(data) {
                             if (parseInt(data) == 1) {

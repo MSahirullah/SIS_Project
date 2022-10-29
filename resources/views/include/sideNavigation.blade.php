@@ -18,7 +18,7 @@
         </a>
       </li>
       <li class="nav-item mt-3">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Common</h6>
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">SETTINGS</h6>
       </li>
       <li class="nav-item">
         <a class="nav-link @if (\Route::current()->getName() === 'acadamic_years.index') active @endif " href="{{ route('acadamic_years.index') }}">
@@ -68,12 +68,47 @@
           <span class="nav-link-text ms-1">Courses</span>
         </a>
       </li>
+      <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">USERS</h6>
+      </li>
       <li class="nav-item">
         <a class="nav-link @if (\Route::current()->getName() === 'students.index' or \Route::current()->getName() === 'students.add' or \Route::current()->getName() === 'students.edit') active @endif " href="{{ route('students.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
           </div>
           <span class="nav-link-text ms-1">Students</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'lecturers.index' or \Route::current()->getName() === 'lecturers.add' or \Route::current()->getName() === 'lecturers.edit') active @endif " href="{{ route('lecturers.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Lecturers</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'staffMembers.index' or \Route::current()->getName() === 'staffMembers.add' or \Route::current()->getName() === 'staffMembers.edit') active @endif " href="{{ route('staffMembers.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Staff Members</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'deans.index' or \Route::current()->getName() === 'deans.add' or \Route::current()->getName() === 'deans.edit') active @endif " href="{{ route('deans.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Dean Office</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link @if (\Route::current()->getName() === 'admins.index' or \Route::current()->getName() === 'admins.add' or \Route::current()->getName() === 'admins.edit') active @endif " href="{{ route('admins.index') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
+          </div>
+          <span class="nav-link-text ms-1">Admins</span>
         </a>
       </li>
       <li class="nav-item mt-3">
@@ -96,49 +131,7 @@
         </a>
       </li>
 
-      <li class="nav-item mt-3">
-        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">User Management</h6>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  " href="{{ route('exam_results') }}">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="fa fa-users fa-2x text-muted" style="font-size: 13px;"></i>
-          </div>
-          <span class="nav-link-text ms-1">Students</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  " href="../pages/virtual-reality.html">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="fa fa-users fa-2x text-muted" style="font-size: 13px;"></i>
-          </div>
-          <span class="nav-link-text ms-1">Lecturers</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  " href="../pages/virtual-reality.html">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="fa fa-users fa-2x text-muted" style="font-size: 13px;"></i>
-          </div>
-          <span class="nav-link-text ms-1">Acadamic Staff</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  " href="../pages/virtual-reality.html">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="fa fa-users fa-2x text-muted" style="font-size: 13px;"></i>
-          </div>
-          <span class="nav-link-text ms-1">Dean Office</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link  " href="../pages/virtual-reality.html">
-          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="fa fa-users fa-2x text-muted" style="font-size: 13px;"></i>
-          </div>
-          <span class="nav-link-text ms-1">Admins</span>
-        </a>
-      </li>
+      
       <li class="nav-item mt-3">
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">User Management</h6>
       </li>

@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DeanController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ExamTypesController;
+use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\YearController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -82,16 +87,45 @@ Route::post('/admin/courses', [CourseController::class, 'addCourse'])->name('cou
 Route::post('/admin/courses/remove', [CourseController::class, 'removeCourse'])->name('courses.remove');
 Route::post('/admin/courses/edit', [CourseController::class, 'editCourse'])->name('courses.edit');
 
+
+
+//// USERS COMMON ROUTES ///
+
+// SAVE USER DATA
+Route::post('/admin/user-actions/save-data', [UserController::class, 'saveUser'])->name('users.save');
+
+// REMOVE USER 
+Route::post('/admin/users-actions/remove', [UserController::class, 'removeUser'])->name('users.remove');
+
+// CHECK USERNAME AND EMAIL ARE ALREADY REGISTERED
+Route::post('/admin/users-actions/check', [UserController::class, 'checkUserStatus'])->name('users.check');
+
+
+////////////////////////////
+
 // STUDENTS ROUTE
 Route::get('/admin/students', [StudentController::class, 'index'])->name('students.index');
 Route::get('/admin/students/add-student', [StudentController::class, 'addStudent'])->name('students.add');
-Route::post('/admin/students/save-student-data', [StudentController::class, 'saveStudent'])->name('students.save');
 Route::get('/admin/students/{username}/edit', [StudentController::class, 'editStudent'])->name('students.edit');
-Route::post('/admin/students/remove', [StudentController::class, 'removeStudent'])->name('students.remove');
+//Route::post('/admin/students/remove', [UserController::class, 'removeUser'])->name('students.remove');
 
 // LECTURERS ROUTE
-Route::get('/admin/lecturers', [StudentController::class, 'index'])->name('lecturers.index');
-Route::get('/admin/lecturers/add-student', [StudentController::class, 'addStudent'])->name('lecturers.add');
-Route::post('/admin/lecturers/save-student-data', [StudentController::class, 'saveStudent'])->name('lecturers.save');
-Route::get('/admin/lecturers/{username}/edit', [StudentController::class, 'editStudent'])->name('lecturers.edit');
-Route::post('/admin/lecturers/remove', [StudentController::class, 'removeStudent'])->name('lecturers.remove');
+Route::get('/admin/lecturers', [LecturerController::class, 'index'])->name('lecturers.index');
+Route::get('/admin/lecturers/add-lecturer', [LecturerController::class, 'addLecturer'])->name('lecturers.add');
+//Route::post('/admin/lecturers/save-student-data', [UserController::class, 'saveUser'])->name('lecturers.save');
+Route::get('/admin/lecturers/{username}/edit', [LecturerController::class, 'editLecturer'])->name('lecturers.edit');
+
+// STAFF MEMBERS ROUTE
+Route::get('/admin/staff-members', [StaffController::class, 'index'])->name('staffMembers.index');
+Route::get('/admin/staff-members/add-member', [StaffController::class, 'addStaffMember'])->name('staffMembers.add');
+Route::get('/admin/staff-members/{username}/edit', [StaffController::class, 'editStaffMember'])->name('staffMembers.edit');
+
+// DEAN ROUTE
+Route::get('/admin/deans', [DeanController::class, 'index'])->name('deans.index');
+Route::get('/admin/deans/add-dean', [DeanController::class, 'addDean'])->name('deans.add');
+Route::get('/admin/deans/{username}/edit', [DeanController::class, 'editDean'])->name('deans.edit');
+
+// ADMIN ROUTE
+Route::get('/admin/admins', [AdminController::class, 'index'])->name('admins.index');
+Route::get('/admin/admins/add', [AdminController::class, 'addAdmin'])->name('admins.add');
+Route::get('/admin/admins/{username}/edit', [AdminController::class, 'editAdmin'])->name('admins.edit');

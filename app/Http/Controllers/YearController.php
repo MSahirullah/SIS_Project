@@ -16,7 +16,7 @@ class YearController extends Controller
         $year = new Year();
         $data = $year->all();
 
-        return view('admin.acadamicYears', ['years' => $data]);
+        return view('admin.settings.acadamicYears', ['years' => $data]);
     }
 
     /**

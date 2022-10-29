@@ -21,8 +21,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
-                <form action="{{ route('students.save') }}" method="post">
+                <form action="{{ route('users.save') }}" method="post" onSubmit="return validateForm();">
                     @csrf
+                    <input type="hidden" name="userType" value="5">
                     <div class="card-body px-3 pt-3 pb-2">
                         <h6>Basic Information</h6>
                         <hr>
@@ -110,7 +111,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="nic"> NIC </label>
-                                <input type="text" name="nic" id="nic" class="form-control" placeholder="NIC">
+                                <input type="text" name="nic" id="nic" class="form-control" placeholder="NIC" required>
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -121,10 +122,10 @@
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label for="hometown"> Hometown </label>
-                                    <input type="text" name="hometown" id="hometown" class="form-control" placeholder="Hometown">
+                                    <input type="text" name="hometown" id="hometown" class="form-control" placeholder="Hometown" required>
                                 </div>
                                 <label for="contactNo"> Contact No </label>
-                                <input type="text" name="contactNo" id="contactNo" class="form-control" placeholder="contact No">
+                                <input type="text" name="contactNo" id="contactNo" class="form-control" placeholder="contact No" required>
                             </div>
                         </div>
                         <h6>Login Details</h6>
@@ -132,7 +133,7 @@
                         <div class="row mb-4">
                             <div class="col-sm-6">
                                 <label for="username"> Username </label>
-                                <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
                             </div>
                             <div class="col-sm-6">
                                 <label for="contactNo"> Password </label>
@@ -155,10 +156,6 @@
 
 @section('scripts')
 
-<script>
-    $(document).ready(function() {
-
-    });
-</script>
+<script src="/js/form-validation.js"></script>
 
 @endsection

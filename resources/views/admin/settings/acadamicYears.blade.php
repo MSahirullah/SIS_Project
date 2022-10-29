@@ -96,7 +96,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <input type="text" name="name" class="form-control p-input validate-input" maxlength="4" placeholder="Enter Acadamic Year" required>
+                            <input type="text" name="name" class="form-control p-input validate-input" maxlength="15" placeholder="Enter Acadamic Year" required>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                     <div class="row">
                         <div class="col">
                             <input type="hidden" name="yearId" value="" id="editYearId">
-                            <input type="text" name="name" id="editYearName" class="form-control p-input validate-input" maxlength="4" placeholder="Enter Acadamic Year" required>
+                            <input type="text" name="name" id="editYearName" class="form-control p-input validate-input" maxlength="15" placeholder="Enter Acadamic Year" required>
                         </div>
                     </div>
                 </div>

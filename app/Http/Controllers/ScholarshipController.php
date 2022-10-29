@@ -17,7 +17,7 @@ class ScholarshipController extends Controller
         $scholarships = new Scholarship();
         $data = $scholarships->all();
 
-        return view('admin.scholarships', ['scholarships' => $data]);
+        return view('admin.settings.scholarships', ['scholarships' => $data]);
     }
 
     /**
