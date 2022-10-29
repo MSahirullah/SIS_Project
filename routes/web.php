@@ -6,6 +6,7 @@ use App\Http\Controllers\DeanController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ExamTypesController;
 use App\Http\Controllers\LecturerController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\StaffController;
@@ -131,3 +132,9 @@ Route::get('/admin/deans/{username}/edit', [DeanController::class, 'editDean'])-
 Route::get('/admin/admins', [AdminController::class, 'index'])->name('admins.index');
 Route::get('/admin/admins/add', [AdminController::class, 'addAdmin'])->name('admins.add');
 Route::get('/admin/admins/{username}/edit', [AdminController::class, 'editAdmin'])->name('admins.edit');
+
+// ADMIN ROUTE
+Route::get('/admin/mentors', [MentorController::class, 'index'])->name('mentors.index');
+Route::post('/admin/mentors/add', [MentorController::class, 'addMentor'])->name('mentors.add');
+Route::post('/admin/mentors/edit', [MentorController::class, 'editMentor'])->name('mentors.edit');
+Route::post('/admin/mentors/remove', [MentorController::class, 'removeMentor'])->name('mentors.remove');
