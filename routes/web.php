@@ -80,6 +80,8 @@ Route::post('/admin/scholarships', [ScholarshipController::class, 'addScholarshi
 Route::post('/admin/scholarships/remove', [ScholarshipController::class, 'removeScholarships'])->name('scholarships.remove');
 Route::post('/admin/scholarships/edit', [ScholarshipController::class, 'editScholarships'])->name('scholarships.edit');
 Route::get('/admin/scholarships/{scUrl}/students', [ScholarshipController::class, 'scholarshipStudents'])->name('scholarships.students');
+Route::post('/admin/scholarships/{scUrl}/students/add', [ScholarshipController::class, 'scholarshipAddStudents'])->name('scholarships.addStudents');
+Route::post('/admin/scholarships/{scUrl}/students/remove', [ScholarshipController::class, 'scholarshipRemoveStudents'])->name('scholarships.removeStudents');
 
 // COURSE ROUTES
 Route::get('/admin/courses', [CourseController::class, 'index'])->name('courses.index');

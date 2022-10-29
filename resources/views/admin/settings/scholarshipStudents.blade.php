@@ -27,8 +27,8 @@
                             <h6> {{ $scholarship['name'] }} - Students </h6>
                         </div>
                         <div class="col-sm-8 text-right">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newExamType">
-                                New Exam Type
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudent">
+                                Add Student
                             </button>
                         </div>
                     </div>
@@ -41,7 +41,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Exam Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Student Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Amount</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                 </tr>
@@ -49,7 +50,7 @@
                             <tbody>
 
                                 @php ($i = 1)
-                                @foreach($scholarships as $scholarship)
+                                @foreach($students as $student)
 
                                 <tr>
                                     <td>
@@ -58,16 +59,16 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0 text-sm"> {{ $scholarship['name'] }} </h6>
+                                        <h6 class="mb-0 text-sm"> {{ $student['name_with_initial'] }} </h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-0 text-sm"> {{ $student['amount'] }} </h6>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success"> {{ $scholarship['status'] == 1 ? 'Active' : 'Inactive' }} </span>
+                                        <span class="badge badge-sm bg-gradient-success"> {{ $student['status'] == 1 ? 'Active' : 'Inactive' }} </span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <button class="btn btn-secondary edit-exam-type" data-exam-type-id="{{ $scholarship['id'] }}" data-exam-type-name="{{ $scholarship['name'] }}">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-danger remove-exam-type" data-exam-type-id="{{ $scholarship['id'] }}">
+                                        <button class="btn btn-danger remove-student" data-route=" {{ route('scholarships.removeStudents',['scUrl'=> $scUrl]) }}" data-student-id="{{ $student['id'] }}">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -85,51 +86,25 @@
     </div>
 </div>
 
-<div class="modal fade" id="newExamType" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addStudent" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newExamYearLabel"> New Exam Type </h5>
+                <h5 class="modal-title"> Add Student </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{route('exam_types.add')}}" method="POST">
+            <form action="{{route('scholarships.addStudents',['scUrl'=> $scholarship['url'] ])}}" id="addNewStudentFrm" method="POST" >
                 @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
-                            <input type="text" name="name" class="form-control p-input validate-input" placeholder="Enter Exam Type Name" required>
+                            <input type="text" name="email" id="scholarshipEmail" class="form-control p-input validate-input" placeholder="Enter Student Email" required>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="editExamType" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id=""> Edit Exam Type </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{route('exam_types.edit')}}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <input type="hidden" name="examTypeId" value="" id="editExamTypeId">
-                            <input type="text" name="name" id="editExamTypeName" class="form-control p-input validate-input" placeholder="Enter Exam Type Name" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary" id="addScholStudent">Add Student</button>
                 </div>
             </form>
         </div>
@@ -143,6 +118,38 @@
 <script>
     $(document).ready(function() {
 
+        $("#addScholStudent").on('click', function() {
+            const email = $("#scholarshipEmail").val();
+
+            $.post("/admin/users-actions/check", {
+                    _token: post_token,
+                    email: email,
+                    avalibility: 1
+                },
+                function(data) {
+                    $("#scholarshipEmail").parent().find("span").remove();
+                    if (parseInt(data) == 1) {
+                        $("#scholarshipEmail").parent().append('<span class="text-success error-msg"> Email already added. </span>');
+                    } else if (parseInt(data) == 2) {
+                        $("#addNewStudentFrm").submit();
+                    } else if (parseInt(data) == 3) {
+                        $("#scholarshipEmail").parent().append('<span class="text-danger error-msg"> Email not found. </span>');
+                    }
+                }
+            );
+        });
+
+        $("#scholarshipEmail").on('input', function() {
+            $(".error-msg").remove();
+        });
+
+        $("#scholarshipEmail").on('keypress', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                e.preventDefault();
+                $("#addScholStudent").trigger('click');
+            }
+        });
+
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -152,10 +159,11 @@
         })
 
         /**
-         *  Remove Acadamic Year Function
+         *  Remove Student Function
          */
-        $(".remove-exam-type").click(function() {
-            const yearId = $(this).attr('data-exam-type-id');
+        $(".remove-student").click(function() {
+            const studentId = $(this).attr('data-student-id');
+            const url = $(this).attr('data-route');
 
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
@@ -168,9 +176,9 @@
             }).then((result) => {
                 if (result.isConfirmed) {
 
-                    $.post("/admin/exam-types/remove", {
+                    $.post(url, {
                             "_token": post_token,
-                            "examTypeId": yearId,
+                            "studentId": studentId,
                         },
                         function(data) {
                             if (parseInt(data) == 1) {
@@ -179,25 +187,9 @@
                             }
                         }
                     );
-
                 }
             });
         });
-
-        /**
-         *  Edit Acadamic Year Function
-         */
-        $(".edit-exam-type").click(function() {
-
-            const examTypeId = $(this).attr('data-exam-type-id');
-            const examTypeName = $(this).attr('data-exam-type-name');
-
-            $('#editExamTypeName').val(examTypeName);
-            $('#editExamTypeId').val(examTypeId);
-            $('#editExamType').modal('show');
-
-        });
-
     });
 </script>
 

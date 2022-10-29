@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ScholStudent;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
@@ -151,7 +152,28 @@ class UserController extends Controller
         $username = $request->username;
         $email = $request->email;
         $uid = $request->uid;
+        $avalibility = $request->avalibility;
         $status = 0;
+
+        if ($avalibility) {
+            $emailCheck = User::whereEmail($email)->first();
+            $scholStatus = 0;
+
+            if ($emailCheck) {
+
+                $scholStudent = ScholStudent::whereStudent_id($emailCheck->toArray()['id'])->first();
+
+                if ($scholStudent) {
+                    $scholStatus = 1;
+                } else {
+                    $scholStatus = 2;
+                }
+            } else {
+                $scholStatus = 3;
+            }
+
+            return $scholStatus;
+        }
 
         if ($username) {
             $usernameCheck = User::whereUsername($username)->first();

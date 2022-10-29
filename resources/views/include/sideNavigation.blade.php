@@ -53,7 +53,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link @if (\Route::current()->getName() === 'scholarships.index') active @endif " href="{{ route('scholarships.index') }}">
+        <a class="nav-link @if (\Route::current()->getName() === 'scholarships.index' or \Route::current()->getName() === 'scholarships.students') active @endif " href="{{ route('scholarships.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="fa fa-bullhorn fa-2x text-muted" style="font-size: 13px;"></i>
           </div>

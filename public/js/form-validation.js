@@ -10,8 +10,6 @@ $("#email").on("input", function () {
     const email = $(this).val();
     const uid = $("#userId").val();
 
-    console.log(uid);
-
     $.post(
         "/admin/users-actions/check",
         {
@@ -21,11 +19,7 @@ $("#email").on("input", function () {
         },
         function (data) {
             if (parseInt(data) == 1) {
-                $("#email")
-                    .parent()
-                    .append(
-                        '<span class="text-danger error-msg"> Email already exists </span>'
-                    );
+                $("#email").parent().append('<span class="text-danger error-msg"> Email already exists </span>');
             } else {
                 $("#email").parent().find("span").remove();
             }

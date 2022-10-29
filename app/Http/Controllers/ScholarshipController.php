@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Scholarship;
 use App\Models\ScholStudent;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -95,7 +96,7 @@ class ScholarshipController extends Controller
      */
     public function scholarshipStudents($scUrl)
     {
-        $scholarship = Scholarship::whereUrl($scUrl)->first()->toArray();
+        $scholarship = Scholarship::whereUrl($scUrl)->first();
 
         if (!$scholarship) {
             return redirect()->route('scholarships.index');
@@ -103,15 +104,55 @@ class ScholarshipController extends Controller
 
         $data = DB::table('schol_students')
             ->where('schol_students.scholarship_id', $scholarship['id'])
-            ->select('schol_students.*')
+            ->join('users', 'users.id', '=', 'schol_students.student_id')
+            ->select('schol_students.id', 'users.name_with_initial', 'schol_students.amount', 'schol_students.status')
             ->get();
 
-        return view('admin.scholarshipStudents', [
-            'scholarships' => $data,
-            'scholarship' => $scholarship
+        return view('admin.settings.scholarshipStudents', [
+            'students' => json_decode($data, true),
+            'scholarship' => $scholarship,
+            'scUrl' => $scUrl
         ]);
     }
 
+    /**
+     * 
+     */
+    public function scholarshipAddStudents($scUrl, Request $request)
+    {
+
+        $student_email = $request->email;
+
+        $scholarship = Scholarship::whereUrl($scUrl)->first();
+        $student = User::whereEmail($student_email)->first();
+
+        if ($scholarship and $student) {
+
+            $scholarship_student = new ScholStudent();
+            $scholarship_student->scholarship_id = $scholarship->toArray()['id'];
+            $scholarship_student->student_id = $student->toArray()['id'];
+            $scholarship_student->amount = $scholarship->toArray()['amount'];
+            $scholarship_student->status = 1;
+            $scholarship_student->save();
+        }
+
+        // TODO : ADD FLASH
+        return redirect()->route('scholarships.students', ['scUrl' => $scUrl]);
+    }
+
+
+    public function scholarshipRemoveStudents($scUrl, Request $request)
+    {
+        $student_id = $request->studentId;
+        $status = 0;
+
+        if ($student_id) {
+            ScholStudent::where('id', $student_id)->delete();
+            $status = 1;
+        }
+
+        return $status;
+    }
 
 
     /**
